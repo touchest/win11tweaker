@@ -1,0 +1,39 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\Win11Tweaker.Core\Win11Tweaker.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+
+    <Using Remove="System.Windows.Forms" />
+    <Using Remove="System.Drawing" />
+  </ItemGroup>
+
+  <ItemGroup>
+
+    <Resource Include="Assets\win11tweaker.ico" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+
+    <UseWindowsForms>true</UseWindowsForms>
+    <AssemblyName>Win11Tweaker</AssemblyName>
+    <RootNamespace>Win11Tweaker.App</RootNamespace>
+
+    <Version>1.0.0</Version>
+    <Product>Win11 Tweaker</Product>
+    <Company>Win11 Tweaker</Company>
+    <Description>Настройка, очистка и фоновое обслуживание Windows</Description>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <ApplicationIcon>Assets\win11tweaker.ico</ApplicationIcon>
+
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+
+    <PublishReadyToRun>true</PublishReadyToRun>
+  </PropertyGroup>
+
+</Project>

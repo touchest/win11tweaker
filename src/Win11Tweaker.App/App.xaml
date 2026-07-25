@@ -1,0 +1,71 @@
+<Application x:Class="Win11Tweaker.App.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:shell="clr-namespace:Win11Tweaker.App.Shell"
+             xmlns:views="clr-namespace:Win11Tweaker.App.Views"
+             StartupUri="Shell/ShellWindow.xaml"
+             ShutdownMode="OnExplicitShutdown">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Theme/Controls.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <DataTemplate DataType="{x:Type shell:TweakSectionViewModel}">
+                <views:TweakListView />
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type shell:AppxSectionViewModel}">
+                <views:AppxListView />
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type shell:TaskSectionViewModel}">
+                <views:TaskListView />
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type shell:CategoryViewModel}">
+                <views:CategoryView />
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type shell:OverviewViewModel}">
+                <views:OverviewView />
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type shell:ProcessMonitorViewModel}">
+                <views:ProcessView />
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type shell:MemoryViewModel}">
+                <views:MemoryView />
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type shell:CleanupViewModel}">
+                <views:CleanupView />
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type shell:OptimizeViewModel}">
+                <views:OptimizeView />
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type shell:ServiceQuizViewModel}">
+                <views:ServiceQuizView />
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type shell:MasterQuizViewModel}">
+                <views:MasterQuizView />
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type shell:AutostartViewModel}">
+                <views:AutostartView />
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type shell:JournalViewModel}">
+                <views:JournalView />
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type shell:PreferencesViewModel}">
+                <views:PreferencesView />
+            </DataTemplate>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

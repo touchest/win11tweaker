@@ -1,0 +1,98 @@
+<UserControl x:Class="Win11Tweaker.App.Views.JournalView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Margin="28,22,28,16" MaxWidth="640" HorizontalAlignment="Left">
+            <TextBlock Text="Журнал" Style="{StaticResource PageTitle}" />
+            <TextBlock Style="{StaticResource PageSubtitle}" Margin="0,4,0,0"
+                       Text="История изменений. Любое можно вернуть обратно." />
+        </StackPanel>
+
+        <Grid Grid.Row="1" Margin="28,0,28,0"
+              Visibility="{Binding IsEmpty, Converter={StaticResource Bool2Vis}}">
+            <TextBlock Text="Пока пусто. Записи появятся после первого применения твиков."
+                       FontSize="14" Foreground="{StaticResource InkFaint}" />
+        </Grid>
+
+        <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto">
+            <ItemsControl ItemsSource="{Binding Rows}" Margin="28,0,22,28">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border x:Name="Row" BorderBrush="{StaticResource Line}" BorderThickness="0,0,0,1"
+                                Padding="0,11" Background="Transparent">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="104" />
+                                    <ColumnDefinition Width="1.2*" />
+                                    <ColumnDefinition Width="1.6*" />
+                                    <ColumnDefinition Width="150" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Grid.Column="0" Text="{Binding Stamp}" FontSize="14"
+                                           VerticalAlignment="Center"
+                                           Foreground="{StaticResource InkFaint}" />
+
+                                <TextBlock Grid.Column="1" Text="{Binding Title}" Margin="0,0,16,0"
+                                           FontSize="15" VerticalAlignment="Center" TextWrapping="Wrap" />
+
+                                <TextBlock Grid.Column="2" Text="{Binding Target}" Margin="0,0,16,0"
+                                           FontFamily="{StaticResource MonoFont}" FontSize="12"
+                                           VerticalAlignment="Center"
+                                           TextTrimming="CharacterEllipsis"
+                                           Foreground="{StaticResource InkDim}" />
+
+                                <Grid Grid.Column="3" VerticalAlignment="Center" Margin="0,0,12,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" Text="{Binding Before}"
+                                               FontFamily="{StaticResource MonoFont}" FontSize="12"
+                                               TextTrimming="CharacterEllipsis"
+                                               ToolTip="{Binding Before}"
+                                               Foreground="{StaticResource InkFaint}" />
+                                    <TextBlock Grid.Column="1" Text="&#x2192;" Margin="7,0" FontSize="12"
+                                               Foreground="{StaticResource InkFaint}" />
+                                    <TextBlock Grid.Column="2" Text="{Binding After}"
+                                               FontFamily="{StaticResource MonoFont}" FontSize="12"
+                                               TextTrimming="CharacterEllipsis"
+                                               ToolTip="{Binding After}"
+                                               Foreground="{Binding DataContext.Accent, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+                                </Grid>
+
+                                <Button x:Name="Undo" Grid.Column="4" Style="{StaticResource Ghost}"
+                                        Content="Откатить" MinWidth="108" FontSize="13"
+                                        VerticalAlignment="Center"
+                                        Command="{Binding DataContext.Revert, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                        CommandParameter="{Binding}" />
+                                <TextBlock x:Name="Done" Grid.Column="4" Text="откачено" MinWidth="108"
+                                           FontSize="13" VerticalAlignment="Center" TextAlignment="Center"
+                                           Visibility="Collapsed" Foreground="{StaticResource InkFaint}" />
+                            </Grid>
+                        </Border>
+
+                        <DataTemplate.Triggers>
+                            <DataTrigger Binding="{Binding Reverted}" Value="True">
+                                <Setter TargetName="Undo" Property="Visibility" Value="Collapsed" />
+                                <Setter TargetName="Done" Property="Visibility" Value="Visible" />
+                                <Setter TargetName="Row" Property="Opacity" Value="0.5" />
+                            </DataTrigger>
+                            <Trigger SourceName="Row" Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Row" Property="Background" Value="{StaticResource Elevated}" />
+                            </Trigger>
+                        </DataTemplate.Triggers>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

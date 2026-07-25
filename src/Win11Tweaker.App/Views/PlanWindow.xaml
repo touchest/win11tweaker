@@ -1,0 +1,92 @@
+<Window x:Class="Win11Tweaker.App.Views.PlanWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Что будет записано"
+        Width="760" MaxHeight="640"
+        SizeToContent="Height"
+        WindowStartupLocation="CenterOwner"
+        WindowStyle="None"
+        ResizeMode="NoResize"
+        Background="{StaticResource Base}"
+        FontFamily="{StaticResource UiFont}"
+        FontSize="16"
+        Foreground="{StaticResource Ink}"
+        UseLayoutRounding="True">
+
+    <Border BorderBrush="{StaticResource Spectrum}" BorderThickness="1">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Row="0" Margin="26,22,26,14">
+                <TextBlock Text="Что будет записано" Style="{StaticResource PageTitle}" />
+                <TextBlock Style="{StaticResource PageSubtitle}" Margin="0,4,0,0"
+                           Text="Прежние значения уйдут в журнал, поэтому любую строку можно будет вернуть." />
+            </StackPanel>
+
+            <Grid Grid.Row="1" Margin="26,0,20,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1.1*" />
+                    <ColumnDefinition Width="1.6*" />
+                    <ColumnDefinition Width="150" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Text="Твик" Style="{StaticResource GroupLabel}" />
+                <TextBlock Grid.Column="1" Text="Куда" Style="{StaticResource GroupLabel}" />
+                <TextBlock Grid.Column="2" Text="Было / станет" Style="{StaticResource GroupLabel}" />
+            </Grid>
+
+            <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" Margin="0,8,0,0">
+                <ItemsControl ItemsSource="{Binding Rows}" Margin="26,0,20,10">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border BorderBrush="{StaticResource Line}" BorderThickness="0,0,0,1" Padding="0,11">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="1.1*" />
+                                        <ColumnDefinition Width="1.6*" />
+                                        <ColumnDefinition Width="150" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" Text="{Binding Tweak}" FontSize="14"
+                                               TextWrapping="Wrap" Margin="0,0,16,0" />
+                                    <TextBlock Grid.Column="1" Text="{Binding Target}" FontSize="12"
+                                               FontFamily="{StaticResource MonoFont}" TextWrapping="Wrap"
+                                               Margin="0,0,16,0" Foreground="{StaticResource InkDim}" />
+                                    <Grid Grid.Column="2">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0" Text="{Binding Before}" FontSize="12"
+                                                   FontFamily="{StaticResource MonoFont}"
+                                                   TextTrimming="CharacterEllipsis"
+                                                   ToolTip="{Binding Before}"
+                                                   Foreground="{StaticResource InkFaint}" />
+                                        <TextBlock Grid.Column="1" Text="&#x2192;" Margin="7,0" FontSize="12"
+                                                   Foreground="{StaticResource InkFaint}" />
+                                        <TextBlock Grid.Column="2" Text="{Binding After}" FontSize="12"
+                                                   TextTrimming="CharacterEllipsis"
+                                                   ToolTip="{Binding After}"
+                                                   FontFamily="{StaticResource MonoFont}" />
+                                    </Grid>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+
+            <Border Grid.Row="3" Background="{StaticResource Surface}" BorderBrush="{StaticResource Line}"
+                    BorderThickness="0,1,0,0" Padding="26,16">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button Style="{StaticResource Ghost}" Content="Отмена" Margin="0,0,10,0" Click="Cancel" />
+                    <Button Style="{StaticResource Primary}" Content="Записать" Click="Accept" />
+                </StackPanel>
+            </Border>
+        </Grid>
+    </Border>
+</Window>

@@ -1,0 +1,158 @@
+<UserControl x:Class="Win11Tweaker.App.Views.MasterQuizView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <UserControl.Resources>
+
+        <DataTemplate x:Key="PlanChip">
+            <Border CornerRadius="4" Padding="8,3" Margin="0,0,6,6"
+                    Background="{StaticResource Hover}">
+                <TextBlock Text="{Binding}" FontSize="12"
+                           FontFamily="{StaticResource MonoFont}"
+                           Foreground="{StaticResource InkDim}" />
+            </Border>
+        </DataTemplate>
+
+        <ItemsPanelTemplate x:Key="Wrap">
+            <WrapPanel />
+        </ItemsPanelTemplate>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Margin="28,22,28,14">
+            <TextBlock Text="Мастер настройки" Style="{StaticResource PageTitle}" />
+            <TextBlock Style="{StaticResource PageSubtitle}" Margin="0,4,0,0"
+                       Text="Один опросник на всё: службы, твики и встроенные приложения. Откат - точечно, тумблерами в разделах." />
+        </StackPanel>
+
+        <Border Grid.Row="1" Style="{StaticResource Card}" Padding="0" Margin="28,0,28,24">
+          <Grid>
+
+            <Grid Visibility="{Binding IsIntro, Converter={StaticResource Bool2Vis}}" ClipToBounds="True">
+
+                <Canvas x:Name="IconField" IsHitTestVisible="False" ClipToBounds="True"
+                        Loaded="IconFieldLoaded" SizeChanged="IconFieldSizeChanged" />
+
+                <StackPanel MaxWidth="1060" VerticalAlignment="Center" HorizontalAlignment="Center"
+                            Margin="56,40">
+                    <TextBlock Text="{Binding IntroTitle}" FontFamily="{StaticResource DisplayFont}"
+                               FontSize="42" FontWeight="SemiBold" HorizontalAlignment="Center"
+                               TextAlignment="Center" TextWrapping="Wrap" />
+                    <TextBlock Text="{Binding IntroStatus}" FontSize="18" TextWrapping="Wrap"
+                               TextAlignment="Center" Margin="0,20,0,0" LineHeight="27" MaxWidth="680"
+                               Foreground="{StaticResource InkDim}" />
+                    <TextBlock Text="Не знаете, что это такое - отвечайте «Нет». Ничего критичного мастер не предложит, зависимости служб просчитаются автоматически."
+                               FontSize="15" TextWrapping="Wrap" TextAlignment="Center" Margin="0,14,0,0" MaxWidth="620"
+                               Foreground="{StaticResource InkFaint}" />
+                    <Button Content="{Binding StartLabel}" Style="{StaticResource Primary}"
+                            HorizontalAlignment="Center" Margin="0,40,0,0" Padding="108,22"
+                            FontSize="20" Command="{Binding Start}" />
+                </StackPanel>
+            </Grid>
+
+            <Grid Visibility="{Binding IsQuestion, Converter={StaticResource Bool2Vis}}"
+                  Margin="56,32">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <StackPanel Grid.Row="0">
+                    <Grid>
+                        <TextBlock Text="{Binding SectionText}" Style="{StaticResource GroupLabel}" />
+                        <TextBlock Text="{Binding ProgressText}" FontSize="12" HorizontalAlignment="Right"
+                                   Foreground="{StaticResource InkFaint}" />
+                    </Grid>
+                    <ProgressBar Style="{StaticResource Meter}" Height="5" Maximum="1"
+                                 Value="{Binding ProgressValue, Mode=OneWay}" Margin="0,8,0,0"
+                                 Foreground="{Binding Accent}" />
+                </StackPanel>
+
+                <StackPanel Grid.Row="1" VerticalAlignment="Center" MaxWidth="1060" HorizontalAlignment="Center">
+                    <TextBlock Text="{Binding QuestionText}" FontFamily="{StaticResource DisplayFont}"
+                               FontSize="30" FontWeight="SemiBold" TextWrapping="Wrap" TextAlignment="Center" />
+                    <TextBlock Text="{Binding HintText}" FontSize="16" TextWrapping="Wrap"
+                               TextAlignment="Center" Margin="0,16,0,0" LineHeight="24"
+                               Foreground="{StaticResource InkDim}" />
+                </StackPanel>
+
+                <Grid Grid.Row="2">
+                    <Button Content="Назад" Style="{StaticResource Ghost}" FontSize="14"
+                            HorizontalAlignment="Left" Command="{Binding Back}" />
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Button Content="Да, пользуюсь" Style="{StaticResource Ghost}"
+                                MinWidth="190" Padding="26,13" FontSize="16" Command="{Binding Yes}" />
+                        <Button Content="Нет, не нужно" Style="{StaticResource Primary}"
+                                MinWidth="190" Padding="26,13" FontSize="16" Margin="16,0,0,0"
+                                Command="{Binding No}" />
+                    </StackPanel>
+                </Grid>
+            </Grid>
+
+            <Grid Visibility="{Binding IsSummary, Converter={StaticResource Bool2Vis}}"
+                  Margin="28,22,28,20">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" Text="{Binding SummaryText}" FontSize="17" FontWeight="SemiBold"
+                           TextWrapping="Wrap" />
+
+                <TextBlock Grid.Row="1" Margin="0,6,0,0" FontSize="13" TextWrapping="Wrap"
+                           Foreground="{StaticResource InkDim}"
+                           Text="Твики откатываются тумблером на странице раздела, службы вернёт повторный проход с ответом «Да». Удаление приложений необратимо." />
+
+                <Border Grid.Row="2" Margin="0,12,0,0" CornerRadius="6" Padding="12,10"
+                        Background="{StaticResource Elevated}" BorderBrush="{StaticResource Line}" BorderThickness="1">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <StackPanel>
+                            <TextBlock Text="Службы" Style="{StaticResource GroupLabel}" Margin="0,0,0,6"
+                                       Visibility="{Binding HasServices, Converter={StaticResource Bool2Vis}}" />
+                            <ItemsControl ItemsSource="{Binding ServiceNames}"
+                                          ItemTemplate="{StaticResource PlanChip}"
+                                          ItemsPanel="{StaticResource Wrap}"
+                                          Visibility="{Binding HasServices, Converter={StaticResource Bool2Vis}}" />
+
+                            <TextBlock Text="Твики" Style="{StaticResource GroupLabel}" Margin="0,8,0,6"
+                                       Visibility="{Binding HasTweaks, Converter={StaticResource Bool2Vis}}" />
+                            <ItemsControl ItemsSource="{Binding TweakNames}"
+                                          ItemTemplate="{StaticResource PlanChip}"
+                                          ItemsPanel="{StaticResource Wrap}"
+                                          Visibility="{Binding HasTweaks, Converter={StaticResource Bool2Vis}}" />
+
+                            <TextBlock Text="Приложения" Style="{StaticResource GroupLabel}" Margin="0,8,0,6"
+                                       Visibility="{Binding HasApps, Converter={StaticResource Bool2Vis}}" />
+                            <ItemsControl ItemsSource="{Binding AppNames}"
+                                          ItemTemplate="{StaticResource PlanChip}"
+                                          ItemsPanel="{StaticResource Wrap}"
+                                          Visibility="{Binding HasApps, Converter={StaticResource Bool2Vis}}" />
+                        </StackPanel>
+                    </ScrollViewer>
+                </Border>
+
+                <Grid Grid.Row="3" Margin="0,14,0,0">
+                    <TextBlock Text="{Binding Status}" FontSize="13" VerticalAlignment="Center"
+                               TextWrapping="Wrap" Foreground="{StaticResource Safe}" MaxWidth="420"
+                               HorizontalAlignment="Left"
+                               Visibility="{Binding HasStatus, Converter={StaticResource Bool2Vis}}" />
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                        <Button Content="Пройти заново" Style="{StaticResource Ghost}"
+                                Command="{Binding Restart}" />
+                        <Button Content="Применить" Style="{StaticResource Primary}"
+                                Margin="12,0,0,0" Command="{Binding Apply}" />
+                    </StackPanel>
+                </Grid>
+            </Grid>
+          </Grid>
+        </Border>
+    </Grid>
+</UserControl>

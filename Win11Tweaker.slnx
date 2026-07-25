@@ -1,0 +1,9 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Win11Tweaker.App/Win11Tweaker.App.csproj" />
+    <Project Path="src/Win11Tweaker.Core/Win11Tweaker.Core.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Win11Tweaker.CatalogCheck/Win11Tweaker.CatalogCheck.csproj" />
+  </Folder>
+</Solution>

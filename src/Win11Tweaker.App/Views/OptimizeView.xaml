@@ -1,0 +1,62 @@
+<UserControl x:Class="Win11Tweaker.App.Views.OptimizeView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Margin="28,22,28,14">
+            <TextBlock Text="Оптимизация" Style="{StaticResource PageTitle}" />
+            <TextBlock Style="{StaticResource PageSubtitle}" Margin="0,4,0,0"
+                       Text="Освобождение места на системном диске штатными средствами Windows." />
+        </StackPanel>
+
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <ItemsControl ItemsSource="{Binding Actions}" Margin="28,0,28,24">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border CornerRadius="6" Padding="16,13" Margin="0,4"
+                                Style="{StaticResource Card}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <StackPanel Grid.Column="0" Margin="0,0,18,0">
+                                    <TextBlock Text="{Binding Title}" FontSize="16" />
+                                    <TextBlock Text="{Binding Detail}" FontSize="13" TextWrapping="Wrap"
+                                               Margin="0,4,0,0" Foreground="{StaticResource InkDim}" />
+                                    <TextBlock Text="{Binding Status}" FontSize="13" Margin="0,7,0,0"
+                                               Foreground="{StaticResource InkFaint}">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="Visibility" Value="Visible" />
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Status}" Value="">
+                                                        <Setter Property="Visibility" Value="Collapsed" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+                                </StackPanel>
+
+                                <Button Grid.Column="1"
+                                        Style="{StaticResource Primary}"
+                                        MinWidth="112"
+                                        VerticalAlignment="Center"
+                                        Content="{Binding ButtonText}"
+                                        Command="{Binding DataContext.Run, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                        CommandParameter="{Binding}" />
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

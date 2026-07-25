@@ -1,0 +1,29 @@
+bin/
+obj/
+.vs/
+.vscode/
+.idea/
+*.user
+*.suo
+
+publish/
+artifacts/
+
+# готовый релиз и промежуточная стадия сборки
+dist/
+release-stage/
+
+# подписи и ключи, никогда не коммитим
+*.pfx
+*.snk
+*.pem
+*.key
+
+site/
+deploy/
+tools/deploy-site.ps1
+
+*.log
+*.tmp
+Thumbs.db
+Desktop.ini
